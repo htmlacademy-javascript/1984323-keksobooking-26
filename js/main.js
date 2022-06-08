@@ -1,4 +1,5 @@
-/*Функция, возвращающая случайное целое число из переданного диапазона включительно*/
+/* eslint-disable no-console */
+//Функция, возвращающая случайное целое число из переданного диапазона включительно
 const randomIntegerNumber = (min, max) => (min<0 || max<= min)? undefined: Math.floor(Math.random() * (max - min + 1) + min);
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
@@ -46,13 +47,12 @@ const arrayOfNumbers = [1,2,3,4,5,6,7,8,9,10];
 
 //Функция возвращающая значение элемента массива с ведущим 0
 const getNonRepeatableNumberOfPicture = () => {
-  let x=arrayOfNumbers[0];
-  arrayOfNumbers.shift();
-  return x.toString().length < 2 ? `0${ x}` : x;
+  const firstElement = arrayOfNumbers.shift();
+  return firstElement.toString().padStart(2,0);
 };
 
 // Определение полей для объекта offer
-const getNewArray = () => {
+const getNewArrayOfFeatures = () => {
   const maxLength = FEATURES_TYPES.length;
   const newArray = [];
   const newArrayLength = randomIntegerNumber(1, maxLength);
@@ -76,30 +76,29 @@ const getNewArrayOfPhotos = () => {
   return newArray;
 };
 
-const getRandomArrayElement = (elements) => {
-  return elements[randomIntegerNumber(0, elements.length - 1)];
-};
+const getRandomArrayElement = (elements) => elements[randomIntegerNumber(0, elements.length - 1)];
+
 //Функция по созданию типового объекта
 const createAnObject = () => {
-  let author = {
+  const author = {
     avatar: `img/avatars/user${getNonRepeatableNumberOfPicture()}.png`
   };
 
-  let location ={
+  const location ={
     lat: randomNotIntegerNumber(35.65000, 35.70000, 5),
     lng: randomNotIntegerNumber(139.70000, 139.80000, 5)
   };
 
-  let offer = {
+  const offer = {
     title: 'Предлагаем для рассмотрения',
-    address: `{{${location.lat}}}, {{${location.lng}}}`,
+    address: `${location.lat}, ${location.lng}`,
     price: randomIntegerNumber(0,100000),
     type: getRandomArrayElement(TYPE_NAMES),
     rooms: randomIntegerNumber(1,100),
     guests: randomIntegerNumber(1,5),
     checkin: getRandomArrayElement(CHECKIN_VARIANTS),
     chekout: getRandomArrayElement(CHECKOUT_VARIANTS),
-    features: getNewArray(),
+    features: getNewArrayOfFeatures(),
     description:'Супер-мега-пуперистое помещение :)',
     photos:getNewArrayOfPhotos(),
   };
