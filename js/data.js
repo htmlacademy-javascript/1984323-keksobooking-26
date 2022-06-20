@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber} from './utils.js';
 
@@ -90,7 +91,7 @@ const createAnObject = () => {
     rooms: randomIntegerNumber(1,100),
     guests: randomIntegerNumber(1,5),
     checkin: getRandomArrayElement(CHECKIN_VARIANTS),
-    chekout: getRandomArrayElement(CHECKOUT_VARIANTS),
+    checkout: getRandomArrayElement(CHECKOUT_VARIANTS),
     features: getNewArrayOfFeatures(),
     description:'Супер-мега-пуперистое помещение :)',
     photos:getNewArrayOfPhotos(),
