@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber} from './utils.js';
@@ -42,13 +43,28 @@ const FEATURES_TYPES =[
 const arrayOfNumbers = [1,2,3,4,5,6,7,8,9,10];
 
 //Функция возвращающая значение элемента массива с ведущим 0
-const getNonRepeatableNumberOfPicture = () => {
-  const firstElement = arrayOfNumbers.shift();
-  return firstElement.toString().padStart(2,0);
-};
+function getNonRepeatableNumberOfPicture (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = randomIntegerNumber(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      // eslint-disable-next-line prefer-template
+      // eslint-disable-next-line no-console
+      console.error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = randomIntegerNumber(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue.toString().padStart(2,0);
+  };
+}
+const generatePhotoId = getNonRepeatableNumberOfPicture (1, 20);
 
 // Определение полей для объекта offer
-const getNewArrayOfFeatures = () => {
+function getNewArrayOfFeatures() {
   const maxLength = FEATURES_TYPES.length;
   const newArray = [];
   const newArrayLength = randomIntegerNumber(1, maxLength);
@@ -60,7 +76,7 @@ const getNewArrayOfFeatures = () => {
     }
   }
   return newArray;
-};
+}
 
 // photos, массив строк — массив случайной длины из значений:
 const getNewArrayOfPhotos = () => {
@@ -75,7 +91,7 @@ const getNewArrayOfPhotos = () => {
 //Функция по созданию типового объекта
 const createAnObject = () => {
   const author = {
-    avatar: `img/avatars/user${getNonRepeatableNumberOfPicture()}.png`
+    avatar: `img/avatars/user${generatePhotoId()}.png`
   };
 
   const location ={
