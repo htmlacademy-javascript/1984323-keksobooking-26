@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber} from './utils.js';
 
@@ -38,43 +40,50 @@ const FEATURES_TYPES =[
   'conditioner'
 ];
 
-const arrayOfNumbers = [1,2,3,4,5,6,7,8,9,10];
+const createUniqueNumbersArray = (count, min) => {
+  const numbers = [];
+  // собираем числа по порядку, начиная с минимально заданного
+  // и прибавляем количество необходимых нам чисел - получаем максимальное число
+  for (let i = min; i < count + min; i++) {
+    numbers.push(i);
+  }
 
-//Функция возвращающая значение элемента массива с ведущим 0
-const getNonRepeatableNumberOfPicture = () => {
-  const firstElement = arrayOfNumbers.shift();
-  return firstElement.toString().padStart(2,0);
+  return numbers
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
 };
 
 // Определение полей для объекта offer
-const getNewArrayOfFeatures = () => {
+function getFeatures() {
   const maxLength = FEATURES_TYPES.length;
-  const newArray = [];
+  const features = [];
   const newArrayLength = randomIntegerNumber(1, maxLength);
-  while (newArray.length < newArrayLength) {
+  while (features.length < newArrayLength) {
     const indexOfEl = randomIntegerNumber(0, maxLength - 1);
     const el = FEATURES_TYPES[indexOfEl];
-    if (!newArray.includes(el)) {
-      newArray.push(el);
+    if (!features.includes(el)) {
+      features.push(el);
     }
   }
-  return newArray;
-};
+  return features;
+}
 
 // photos, массив строк — массив случайной длины из значений:
-const getNewArrayOfPhotos = () => {
-  const newArray = [];
+const getPhotos = () => {
+  const photos = [];
   const newArrayLength = randomIntegerNumber(1, PHOTOS_TYPES.length);
   for (let i=0; i < newArrayLength; i++ ){
-    newArray.push(PHOTOS_TYPES[i]);
+    photos.push(PHOTOS_TYPES[i]);
   }
-  return newArray;
+  return photos;
 };
 
 //Функция по созданию типового объекта
-const createAnObject = () => {
+const createAnObject = (uniqueIds) => {
   const author = {
-    avatar: `img/avatars/user${getNonRepeatableNumberOfPicture()}.png`
+    // берем из массива id первое значение и удаляем его
+    avatar: `img/avatars/user${uniqueIds.shift().toString().padStart(2, '0')}.png`
   };
 
   const location ={
@@ -90,10 +99,10 @@ const createAnObject = () => {
     rooms: randomIntegerNumber(1,100),
     guests: randomIntegerNumber(1,5),
     checkin: getRandomArrayElement(CHECKIN_VARIANTS),
-    chekout: getRandomArrayElement(CHECKOUT_VARIANTS),
-    features: getNewArrayOfFeatures(),
+    checkout: getRandomArrayElement(CHECKOUT_VARIANTS),
+    features: getFeatures(),
     description:'Супер-мега-пуперистое помещение :)',
-    photos:getNewArrayOfPhotos(),
+    photos:getPhotos(),
   };
 
   return {
@@ -103,6 +112,16 @@ const createAnObject = () => {
   };
 };
 
-const createObjects = () => Array.from({length: SIMILAR_OBJECTS_COUNT}, createAnObject);
+let lastCreatedId = 1;
+const createObjects = () => {
+  // на каждый вызов создаем новый массив уникальных чисел
+  const uniqueIds = createUniqueNumbersArray(SIMILAR_OBJECTS_COUNT, lastCreatedId);
+  // запоминаем мксимальное число, которое будет у нас в массиве
+  lastCreatedId = lastCreatedId + SIMILAR_OBJECTS_COUNT;
+
+  // передаем полученный массив в функцию создания объекта
+  return Array.from({length: SIMILAR_OBJECTS_COUNT}, () => createAnObject(uniqueIds));
+};
 
 export {createObjects};
+
