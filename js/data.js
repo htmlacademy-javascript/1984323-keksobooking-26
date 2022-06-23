@@ -119,7 +119,6 @@ const createObjects = () => {
   // передаем полученный массив в функцию создания объекта
   return Array.from({length: SIMILAR_OBJECTS_COUNT}, () => createAnObject(uniqueIds));
 };
-createObjects();
 
 export {createObjects};
 
