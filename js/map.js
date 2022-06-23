@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
 import {switchCondition} from './form.js';
 const LONDON = { lat: 51.505, lng: -0.09};
@@ -21,12 +22,3 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
-
-const marker = L.marker(
-  {
-    lat: LONDON.lat,
-    lng: LONDON.lng,
-  },
-).addTo(map);
-
-
