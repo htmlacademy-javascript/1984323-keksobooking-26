@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 //Функция, возвращающая случайное целое число из переданного диапазона включительно
 const randomIntegerNumber = (min, max) => (min<0 || max<= min)? undefined: Math.floor(Math.random() * (max - min + 1) + min);
 

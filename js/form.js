@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
 const filterForm = document.querySelector('.map__filters');
@@ -16,4 +15,5 @@ const disableFilterForm = () => {
     filterFormItem.disabled = !filterFormItem.disabled;
   }
 };
+disableFilterForm();
 export {switchCondition};

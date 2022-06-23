@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import { createObjects } from './data.js';
 
 const TYPES = {
@@ -39,7 +38,7 @@ similarObjects.forEach(({ offer, author} ) => {
     objectElement.querySelector('.popup__features').classList.add('hidden');
   }
   else{
-    const modifiers = offer.features.map((features) => 'popup__feature--' + features);
+    const modifiers = offer.features.map((features) => `popup__feature--${  features}`);
     featuresList.forEach((featuresListItem) => {
       const modifier = featuresListItem.classList[1];
       if (!modifiers.includes(modifier)) {
@@ -69,7 +68,6 @@ similarObjects.forEach(({ offer, author} ) => {
   }
 
   objectElements.push(objectElement);
-  //console.log(objectElement);
 });
 fragment.appendChild(objectElements[0]);
 firstTemporaryObject.appendChild(fragment);

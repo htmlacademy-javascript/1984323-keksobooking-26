@@ -1,6 +1,3 @@
-/* eslint-disable prefer-template */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber} from './utils.js';
 
 const SIMILAR_OBJECTS_COUNT = 10;
@@ -122,6 +119,7 @@ const createObjects = () => {
   // передаем полученный массив в функцию создания объекта
   return Array.from({length: SIMILAR_OBJECTS_COUNT}, () => createAnObject(uniqueIds));
 };
+createObjects();
 
 export {createObjects};
 
