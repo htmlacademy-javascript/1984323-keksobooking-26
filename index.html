@@ -114,7 +114,7 @@
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
           <input id="price" name="price" type="number" placeholder="5000" required max="100000"
             data-pristine-required-message="Обязательное поле"
-            data-pristine-maxcost-message="Максимальная цена 10000">
+            data-pristine-maxlength-message="Максимальная цена 10000">
           <div class="ad-form__slider"></div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
@@ -237,7 +237,7 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
-  <script src="pristine/pristine.js"></script>
+  <script src="./pristine/pristine.min.js"></script>
   <script src="/js/main.js" type="module"></script>
 
 </body>

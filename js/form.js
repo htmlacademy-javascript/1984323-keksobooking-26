@@ -3,20 +3,7 @@ const informationFormElements = informationForm.querySelectorAll('.fieldset');
 const filterForm = document.querySelector('.map__filters');
 const priceForm = informationForm.querySelector('#price');
 const typeForm = informationForm.querySelector('#type');
-
-const MIN_PRICE_OF_TYPE= {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000',
-};
-
-// Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»
-const getMinCostChange = () => {
-  priceForm.placeholder = MIN_PRICE_OF_TYPE[typeForm.value];
-  priceForm.min = MIN_PRICE_OF_TYPE[typeForm.value];
-};
+const slider = document.querySelector('.ad-form__slider');
 
 const switchCondition = () => {
   informationForm.classList.toggle('ad-form--disabled');
@@ -31,43 +18,39 @@ const disableFilterForm = () => {
     filterFormItem.disabled = !filterFormItem.disabled;
   }
 };
-const rangeSliderInit = () => {
-  const slider = document.querySelector('.ad-form__slider');
-  noUiSlider.create(slider, {
-    start: 0,
-    connect: 'lower',
-    behaviour: 'drag-all',
-    range: {
-      'min': 0,
-      'max': 100000,
-    },
-    step: 1000,
+
+noUiSlider.create(slider, {
+  start: 10000,
+  connect: 'lower',
+  behaviour: 'drag-all',
+  step: 500,
+  range: {
+    'min': [0],
+    'max': [100000]
   }
-  );
-  slider.noUiSlider.on('update', (values, handle) => { // при изменений положения элементов управления слайдера изменяем соответствующие значения
-    priceForm.value = Math.round(values[handle]);
-  });
-};
+}
+);
 
-const init = () => {
-  rangeSliderInit(); // запускаем функцию инициализации слайдера
-};
-
-window.addEventListener('DOMContentLoaded', init);
-
-
-// eslint-disable-next-line no-unused-vars
-const pristine = new Pristine(informationForm, {
-  classTo: 'ad-form__element',
-  errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__error-text',
+slider.noUiSlider.on('change', (values, handle) => {
+  priceForm.value = Math.floor(values[handle]);
 });
 
-informationForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-});
+const MIN_PRICE_OF_TYPE= {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
+};
 
-getMinCostChange();
+// Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»
+const getTypeChange = () => {
+  priceForm.placeholder = MIN_PRICE_OF_TYPE[typeForm.value];
+  priceForm.min = MIN_PRICE_OF_TYPE[typeForm.value];
+};
+typeForm.addEventListener('change',getTypeChange);
+
+
 disableFilterForm();
 switchCondition();
-export {switchCondition};
+export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE};
