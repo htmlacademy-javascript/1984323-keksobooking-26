@@ -10,16 +10,23 @@ const pristine = new Pristine(informationForm, {
 }, false);
 
 const validatePrice = () => priceForm.value >= MIN_PRICE_OF_TYPE[typeForm.value];
+const validatePriceAndType = () => priceForm.value <= MIN_PRICE_OF_TYPE[typeForm.value];
 const showPriceValidationError = () => `Минимальная цена должна быть больше ${MIN_PRICE_OF_TYPE[typeForm.value]}`;
 pristine.addValidator(priceForm, validatePrice, showPriceValidationError);
+pristine.addValidator(typeForm, validatePriceAndType, showPriceValidationError);
 
-const validateRoomsandGuests = () => Number(capacityForm.value) <= Number(roomNumber.value);
+const checkGuestsCount = () =>{
+  if (roomNumber.value === '100' || capacityForm.value === '0'){
+    return roomNumber.value === '100' && capacityForm.value === '0' ;
+  }
+  return Number(capacityForm.value) <= Number(roomNumber.value);
+};
+
+const validateGuests = () => Number(capacityForm.value) <= Number(roomNumber.value);
 const showGuestsValidationError = () => 'Количество мест должно быть меньше или равно количеству комнат';
-const showRoomsValidationError = () => 'Количество комнат должно быть больше или равно количеству мест';
-
-pristine.addValidator(capacityForm, validateRoomsandGuests, showGuestsValidationError);
-pristine.addValidator(roomNumber, validateRoomsandGuests, showRoomsValidationError);
-
+const showRoomsValidationError = () => 'Количество комнат должно быть больше или равно количеству мест. Если 100 комнат, то "не для гостей"';
+pristine.addValidator(capacityForm, validateGuests, showGuestsValidationError);
+pristine.addValidator(roomNumber, checkGuestsCount, showRoomsValidationError);
 
 informationForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();

@@ -20,7 +20,7 @@ const disableFilterForm = () => {
 };
 
 noUiSlider.create(slider, {
-  start: 10000,
+  start: 0,
   connect: 'lower',
   behaviour: 'drag-all',
   step: 500,
