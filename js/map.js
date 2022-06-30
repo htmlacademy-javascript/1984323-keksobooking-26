@@ -1,8 +1,7 @@
 import {switchCondition} from './form.js';
-const LONDON = { lat: 51.505, lng: -0.09};
+const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
 const L = window.L;
-switchCondition();
 
 const onMapLoad =() => {
   switchCondition();
@@ -10,8 +9,8 @@ const onMapLoad =() => {
 const map = L.map('map-canvas')
   .on('load',onMapLoad)
   .setView({
-    lat: LONDON.lat,
-    lng: LONDON.lng,
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
   }, MAP_ZOOM);
 
 L.tileLayer(
@@ -25,7 +24,7 @@ L.tileLayer(
 // eslint-disable-next-line no-unused-vars
 const marker = L.marker(
   {
-    lat: LONDON.lat,
-    lng: LONDON.lng,
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
   },
 ).addTo(map);
