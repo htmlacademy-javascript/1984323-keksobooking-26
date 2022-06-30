@@ -2,6 +2,14 @@ import {informationForm, priceForm,typeForm, MIN_PRICE_OF_TYPE} from './form.js'
 
 const roomNumber = informationForm.querySelector('#room_number');
 const capacityForm = informationForm.querySelector('#capacity');
+const timeinForm = informationForm.querySelector('#timein');
+const timeOutForm = informationForm.querySelector('#timeout');
+
+// Поле «Время заезда» синхронизированно изменят значение «Время выезда»
+timeinForm.addEventListener('change',() => {timeOutForm.value = timeinForm.value;});
+
+// Поле «Время выезда» синхронизированно изменят значение «Время заезда»
+timeOutForm.addEventListener('change',() => {timeinForm.value = timeOutForm.value;});
 
 const pristine = new Pristine(informationForm, {
   classTo: 'ad-form__element',
