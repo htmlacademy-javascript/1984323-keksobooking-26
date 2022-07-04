@@ -1,7 +1,11 @@
-import {switchCondition} from './form.js';
+import {switchCondition,informationForm } from './form.js';
+import { similarObjects, createCard} from './popup.js';
+
 const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
 const L = window.L;
+const address = informationForm.querySelector('#address');
+
 
 const onMapLoad =() => {
   switchCondition();
@@ -16,15 +20,74 @@ const map = L.map('map-canvas')
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
-    maxZoom: 19,
+    maxZoom: 13,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
 
-// eslint-disable-next-line no-unused-vars
+//Создание основной метки
+const mainPinIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
 const marker = L.marker(
   {
     lat: TOKYO.lat,
     lng: TOKYO.lng,
   },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
 ).addTo(map);
+
+//При остановке движения основной метки координаты отображаются в поле "Адрес"
+marker.on('moveend', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+});
+
+//Создание метки объявления
+const adIcon = L.icon({
+  iconUrl: '/img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const layerGroup = L.layerGroup().addTo(map);
+
+const createMarker = (point) => {
+  const {location} = point;
+  L.marker(
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
+    {
+      icon: adIcon,
+    },
+  )
+    .addTo(layerGroup)
+    .bindPopup(.....(point));
+};
+similarObjects.forEach((point) => {
+  createMarker(point);
+});
+
+/*similarObjects.forEach(({author,offer,location}) => {
+  L.marker(
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
+    {
+      icon: adIcon,
+    },
+  )
+    .addTo(layerGroup)
+    .bindPopup();
+});*/
+
+

@@ -8,14 +8,11 @@ const TYPES = {
   hotel: 'Отель',
 };
 
-const similarObjectTemplate = document.querySelector('#card')
+/*const similarObjectTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-const firstTemporaryObject = document.querySelector('#map-canvas');
 const similarObjects = createObjects();
-const fragment = document.createDocumentFragment();
-const objectElements =[];
 
 similarObjects.forEach(({ offer, author} ) => {
   const objectElement = similarObjectTemplate.cloneNode(true);
@@ -66,8 +63,8 @@ similarObjects.forEach(({ offer, author} ) => {
       photoElementParent.appendChild(clonedElement);
     }
   }
+});*/
 
-  objectElements.push(objectElement);
-});
-fragment.appendChild(objectElements[0]);
-firstTemporaryObject.appendChild(fragment);
+
+
+export{similarObjects, createObjects, createCard};
