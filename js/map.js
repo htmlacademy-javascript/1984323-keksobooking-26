@@ -1,8 +1,8 @@
 import {switchCondition,informationForm } from './form.js';
-import { similarObjects, createCard} from './popup.js';
+import {similarObjects, createCard} from './popup.js';
 
 const TOKYO = { lat: 35.652832, lng: 139.839478};
-const MAP_ZOOM = 13;
+const MAP_ZOOM = 8;
 const L = window.L;
 const address = informationForm.querySelector('#address');
 
@@ -51,7 +51,7 @@ marker.on('moveend', (evt) => {
 
 //Создание метки объявления
 const adIcon = L.icon({
-  iconUrl: '/img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
@@ -70,7 +70,7 @@ const createMarker = (point) => {
     },
   )
     .addTo(layerGroup)
-    .bindPopup(.....(point));
+    .bindPopup(createCard(point));
 };
 similarObjects.forEach((point) => {
   createMarker(point);
