@@ -7,6 +7,8 @@ const L = window.L;
 const address = informationForm.querySelector('#address');
 const mainPinIconSize = [52, 52];
 const mainPinIconAnchor = [26, 52];
+const adIconSize = [40, 40];
+const adiconAnchor = [20, 40];
 const toFixedDigit = 5;
 address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
 
@@ -24,7 +26,7 @@ const map = L.map('map-canvas')
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
-    maxZoom: 13,
+    maxZoom: MAP_ZOOM,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
@@ -56,8 +58,8 @@ marker.on('move', (evt) => {
 //Создание метки объявления
 const adIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: adIconSize,
+  iconAnchor: adiconAnchor,
 });
 
 const layerGroup = L.layerGroup().addTo(map);
