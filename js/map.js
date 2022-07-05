@@ -5,6 +5,10 @@ const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 8;
 const L = window.L;
 const address = informationForm.querySelector('#address');
+const mainPinIconSize = [52, 52];
+const mainPinIconAnchor = [26, 52];
+const toFixedDigit = 5;
+address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
 
 
 const onMapLoad =() => {
@@ -28,8 +32,8 @@ L.tileLayer(
 //Создание основной метки
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: mainPinIconSize,
+  iconAnchor: mainPinIconAnchor,
 });
 
 const marker = L.marker(
@@ -44,9 +48,9 @@ const marker = L.marker(
 ).addTo(map);
 
 //При остановке движения основной метки координаты отображаются в поле "Адрес"
-marker.on('moveend', (evt) => {
+marker.on('move', (evt) => {
   const coordinates = evt.target.getLatLng();
-  address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+  address.value = `${coordinates.lat.toFixed(toFixedDigit)}, ${coordinates.lng.toFixed(toFixedDigit)}`;
 });
 
 //Создание метки объявления
