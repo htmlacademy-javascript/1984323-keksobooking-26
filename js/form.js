@@ -19,6 +19,7 @@ const disableFilterForm = () => {
   }
 };
 
+
 noUiSlider.create(slider, {
   start: 0,
   connect: 'lower',
