@@ -6,4 +6,5 @@ const randomIntegerNumber = (min, max) => (min<0 || max<= min)? undefined: Math.
 const randomNotIntegerNumber=(min, max, n) => (min < 0 || max <= min)? undefined: +(Math.random() * (max - min + 1) + min).toFixed(n);
 
 const getRandomArrayElement = (elements) => elements[randomIntegerNumber(0, elements.length - 1)];
+
 export {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber};

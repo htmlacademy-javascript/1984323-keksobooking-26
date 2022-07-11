@@ -1,9 +1,11 @@
-import {informationForm, priceForm,typeForm, MIN_PRICE_OF_TYPE} from './form.js';
+import {informationForm, priceForm, typeForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton } from './form.js';
+import {sendData} from './api.js';
 
 const roomNumber = informationForm.querySelector('#room_number');
 const capacityForm = informationForm.querySelector('#capacity');
 const timeinForm = informationForm.querySelector('#timein');
 const timeOutForm = informationForm.querySelector('#timeout');
+
 
 // Поле «Время заезда» синхронизированно изменят значение «Время выезда»
 timeinForm.addEventListener('change',() => {timeOutForm.value = timeinForm.value;});
@@ -18,7 +20,7 @@ const pristine = new Pristine(informationForm, {
 }, false);
 
 const validatePrice = () => priceForm.value >= MIN_PRICE_OF_TYPE[typeForm.value];
-const validatePriceAndType = () => priceForm.value <= MIN_PRICE_OF_TYPE[typeForm.value];
+const validatePriceAndType = () => priceForm.value >= MIN_PRICE_OF_TYPE[typeForm.value];
 const showPriceValidationError = () => `Минимальная цена должна быть больше ${MIN_PRICE_OF_TYPE[typeForm.value]}`;
 pristine.addValidator(priceForm, validatePrice, showPriceValidationError);
 pristine.addValidator(typeForm, validatePriceAndType, showPriceValidationError);
@@ -36,10 +38,26 @@ const showRoomsValidationError = () => 'Количество комнат дол
 pristine.addValidator(capacityForm, validateGuests, showGuestsValidationError);
 pristine.addValidator(roomNumber, checkGuestsCount, showRoomsValidationError);
 
-informationForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  evt.preventDefault();
-  if (isValid) {
-    informationForm.submit();
-  }
-});
+
+const setUserFormSubmit = (onSuccess, onFail) => {
+  informationForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          onFail();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit};
