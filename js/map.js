@@ -91,7 +91,6 @@ const resetMap = () => map.setView({
 
 const resetMarker = () => {
   address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
-  console.log(address.value);
   marker.setLatLng({
     lat: TOKYO.lat,
     lng: TOKYO.lng,

@@ -70,16 +70,15 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Сохранить';
 };
 
-const onResetButtonClick = () => {
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
   informationForm.reset();
   getData((offers) => renderMarkers(offers));
   slider.noUiSlider.reset();
   resetMap();
   resetMarker();
-};
-
-resetButton.addEventListener('click', onResetButtonClick);
+});
 
 disableFilterForm();
 switchCondition();
-export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address};
+export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, slider};
