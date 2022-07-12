@@ -73,7 +73,6 @@ const unblockSubmitButton = () => {
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   informationForm.reset();
-  getData((offers) => renderMarkers(offers));
   slider.noUiSlider.reset();
   resetMap();
   resetMarker();

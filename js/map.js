@@ -87,7 +87,7 @@ const renderMarkers = (offers) => {
 const resetMap = () => map.setView({
   lat: TOKYO.lat,
   lng: TOKYO.lng,
-});
+}, MAP_ZOOM);
 
 const resetMarker = () => {
   address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
