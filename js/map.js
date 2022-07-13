@@ -1,17 +1,16 @@
-import {switchCondition,informationForm } from './form.js';
-import {similarObjects, createCard} from './popup.js';
+import {switchCondition, address } from './form.js';
+import {createCard} from './popup.js';
 
 const TOKYO = { lat: 35.652832, lng: 139.839478};
-const MAP_ZOOM = 8;
+const MAP_ZOOM = 13;
 const L = window.L;
-const address = informationForm.querySelector('#address');
+
 const mainPinIconSize = [52, 52];
 const mainPinIconAnchor = [26, 52];
 const adIconSize = [40, 40];
 const adiconAnchor = [20, 40];
 const toFixedDigit = 5;
 address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
-
 
 const onMapLoad =() => {
   switchCondition();
@@ -78,22 +77,28 @@ const createMarker = (point) => {
     .addTo(layerGroup)
     .bindPopup(createCard(point));
 };
-similarObjects.forEach((point) => {
-  createMarker(point);
-});
 
-/*similarObjects.forEach(({author,offer,location}) => {
-  L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng,
-    },
-    {
-      icon: adIcon,
-    },
-  )
-    .addTo(layerGroup)
-    .bindPopup();
-});*/
+const SIMILAR_AD_COUNT = 10;
+
+const renderMarkers = (offers) => {
+  offers.slice(0, SIMILAR_AD_COUNT).forEach((point) => {
+    createMarker(point);
+  });
+};
+
+const resetMap = () => map.setView({
+  lat: TOKYO.lat,
+  lng: TOKYO.lng,
+}, MAP_ZOOM);
+
+const resetMarker = () => {
+  address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
+  marker.setLatLng({
+    lat: TOKYO.lat,
+    lng: TOKYO.lng,
+  });
+};
+
+export {renderMarkers, resetMarker, resetMap};
 
 

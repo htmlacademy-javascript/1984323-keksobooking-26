@@ -1,9 +1,14 @@
+import {resetMarker, resetMap} from './map.js';
+
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
 const filterForm = document.querySelector('.map__filters');
 const priceForm = informationForm.querySelector('#price');
 const typeForm = informationForm.querySelector('#type');
 const slider = document.querySelector('.ad-form__slider');
+const submitButton = informationForm.querySelector('.ad-form__submit');
+const resetButton = informationForm.querySelector('.ad-form__reset');
+const address = informationForm.querySelector('#address');
 
 const switchCondition = () => {
   informationForm.classList.toggle('ad-form--disabled');
@@ -19,7 +24,6 @@ const disableFilterForm = () => {
   }
 };
 
-
 noUiSlider.create(slider, {
   start: 0,
   connect: 'lower',
@@ -32,7 +36,7 @@ noUiSlider.create(slider, {
 }
 );
 
-slider.noUiSlider.on('change', (values, handle) => {
+slider.noUiSlider.on('update', (values, handle) => {
   priceForm.value = Math.floor(values[handle]);
 });
 
@@ -52,6 +56,30 @@ const getTypeChange = () => {
 typeForm.addEventListener('change',getTypeChange);
 
 
+// Блокирование кнопки 'Опубликовать'
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+// Разблокировка кнопки 'Опубликовать'
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const resetForm = () => {
+  informationForm.reset();
+  slider.noUiSlider.reset();
+  resetMap();
+  resetMarker();
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
 disableFilterForm();
 switchCondition();
-export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE};
+export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, resetForm};

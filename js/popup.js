@@ -1,6 +1,3 @@
-//import { create } from 'browser-sync';
-import { createObjects } from './data.js';
-
 const TYPES = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -12,6 +9,7 @@ const TYPES = {
 const similarObjectTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
+
 
 const createCard = ({offer, author}) => {
   const objectElement = similarObjectTemplate.cloneNode(true);
@@ -92,6 +90,4 @@ const createCard = ({offer, author}) => {
   return objectElement;
 };
 
-const similarObjects = createObjects();
-
-export{similarObjects, createCard};
+export{createCard};
