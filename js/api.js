@@ -1,4 +1,4 @@
-import {showErrorPopup} from './alert-popup.js';
+import {showPopup, errorPopup} from './alert-popup.js';
 const DATABASE_URL = 'https://26.javascript.pages.academy/keksobooking';
 const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
 const ALERT_SHOW_TIME = 5000;
@@ -30,16 +30,16 @@ const getData = (onSuccess, onFail) => {
     .then((response) => {
       if (response.ok) {
         return response.json()
-          .then ((offers) => {
-            onSuccess(offers);
-          });
+          .then (onSuccess);
       }
-      else {
-        onFail(showAlert('Не удалось загрузить данные. Попробуйте еще раз'));
+      {
+        onFail();
+        showAlert('Не удалось загрузить данные. Попробуйте еще раз');
       }
     })
     .catch (() => {
-      onFail(showAlert('Не удалось загрузить данные. Попробуйте еще раз'));
+      onFail();
+      showAlert('Не удалось загрузить данные. Попробуйте еще раз');
     });
 };
 
@@ -57,11 +57,13 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail(showErrorPopup());
+        onFail();
+        showPopup(errorPopup);
       }
     })
     .catch(() => {
-      onFail(showErrorPopup());
+      onFail();
+      showPopup(errorPopup);
     });
 };
 

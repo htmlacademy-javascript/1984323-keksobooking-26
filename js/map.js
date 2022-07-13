@@ -78,8 +78,10 @@ const createMarker = (point) => {
     .bindPopup(createCard(point));
 };
 
+const SIMILAR_AD_COUNT = 10;
+
 const renderMarkers = (offers) => {
-  offers.forEach((point) => {
+  offers.slice(0, SIMILAR_AD_COUNT).forEach((point) => {
     createMarker(point);
   });
 };

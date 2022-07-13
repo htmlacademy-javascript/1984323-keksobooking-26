@@ -1,6 +1,5 @@
-import {informationForm, priceForm, typeForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton,slider } from './form.js';
+import {informationForm, priceForm, typeForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton,resetForm} from './form.js';
 import {sendData} from './api.js';
-import {resetMarker, resetMap} from './map.js';
 
 const roomNumber = informationForm.querySelector('#room_number');
 const capacityForm = informationForm.querySelector('#capacity');
@@ -50,10 +49,7 @@ const setUserFormSubmit = (onSuccess, onFail) => {
         () => {
           onSuccess();
           unblockSubmitButton();
-          informationForm.reset();
-          slider.noUiSlider.reset();
-          resetMap();
-          resetMarker();
+          resetForm();
         },
         () => {
           onFail();

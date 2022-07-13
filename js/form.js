@@ -1,5 +1,4 @@
-import {renderMarkers, resetMarker, resetMap} from './map.js';
-import {getData} from './api.js';
+import {resetMarker, resetMap} from './map.js';
 
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
@@ -10,7 +9,6 @@ const slider = document.querySelector('.ad-form__slider');
 const submitButton = informationForm.querySelector('.ad-form__submit');
 const resetButton = informationForm.querySelector('.ad-form__reset');
 const address = informationForm.querySelector('#address');
-
 
 const switchCondition = () => {
   informationForm.classList.toggle('ad-form--disabled');
@@ -38,7 +36,7 @@ noUiSlider.create(slider, {
 }
 );
 
-slider.noUiSlider.on('change', (values, handle) => {
+slider.noUiSlider.on('update', (values, handle) => {
   priceForm.value = Math.floor(values[handle]);
 });
 
@@ -70,14 +68,18 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Сохранить';
 };
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const resetForm = () => {
   informationForm.reset();
   slider.noUiSlider.reset();
   resetMap();
   resetMarker();
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
 });
 
 disableFilterForm();
 switchCondition();
-export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, slider};
+export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, resetForm};
