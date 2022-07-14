@@ -1,5 +1,5 @@
 import {showPopup, errorPopup} from './alert-popup.js';
-const DATABASE_URL = 'https://26.javascript.pages.academy/keksobookin';
+const DATABASE_URL = 'https://26.javascript.pages.academy/keksobooking';
 const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
 const ALERT_SHOW_TIME = 5000;
 

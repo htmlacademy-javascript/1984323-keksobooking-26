@@ -82,4 +82,4 @@ resetButton.addEventListener('click', (evt) => {
 
 disableFilterForm();
 switchCondition();
-export {informationForm, priceForm, typeForm, switchCondition,MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, resetForm};
+export {informationForm, priceForm, typeForm, switchCondition, disableFilterForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton, address, resetForm};

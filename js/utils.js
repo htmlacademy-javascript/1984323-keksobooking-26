@@ -7,4 +7,12 @@ const randomNotIntegerNumber=(min, max, n) => (min < 0 || max <= min)? undefined
 
 const getRandomArrayElement = (elements) => elements[randomIntegerNumber(0, elements.length - 1)];
 
-export {getRandomArrayElement,randomIntegerNumber,randomNotIntegerNumber};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomArrayElement, randomIntegerNumber, randomNotIntegerNumber, debounce};

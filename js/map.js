@@ -1,8 +1,12 @@
-import {switchCondition, address } from './form.js';
+import {switchCondition, disableFilterForm, address } from './form.js';
 import {createCard} from './popup.js';
+import {getData, showAlert} from './api.js';
+import {checkAllFilters, changeFilters} from './filter.js';
+import {debounce} from './utils.js';
 
 const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
+const SIMILAR_AD_COUNT = 10;
 const L = window.L;
 
 const mainPinIconSize = [52, 52];
@@ -15,12 +19,19 @@ address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedD
 const onMapLoad =() => {
   switchCondition();
 };
-const map = L.map('map-canvas')
-  .on('load',onMapLoad)
-  .setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  }, MAP_ZOOM);
+
+const map = L.map('map-canvas');
+
+const loadMap = (cb) => {
+  map.on('load', () => {
+    cb();
+  })
+    .setView({
+      lat: TOKYO.lat,
+      lng: TOKYO.lng,
+    }, MAP_ZOOM);
+};
+
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -48,12 +59,6 @@ const marker = L.marker(
   },
 ).addTo(map);
 
-//При остановке движения основной метки координаты отображаются в поле "Адрес"
-marker.on('move', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  address.value = `${coordinates.lat.toFixed(toFixedDigit)}, ${coordinates.lng.toFixed(toFixedDigit)}`;
-});
-
 //Создание метки объявления
 const adIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -78,12 +83,16 @@ const createMarker = (point) => {
     .bindPopup(createCard(point));
 };
 
-const SIMILAR_AD_COUNT = 10;
+//При остановке движения основной метки координаты отображаются в поле "Адрес"
+marker.on('move', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  address.value = `${coordinates.lat.toFixed(toFixedDigit)}, ${coordinates.lng.toFixed(toFixedDigit)}`;
+});
 
 const renderMarkers = (offers) => {
-  offers.slice(0, SIMILAR_AD_COUNT).forEach((point) => {
-    createMarker(point);
-  });
+  offers
+    .slice(0, SIMILAR_AD_COUNT)
+    .forEach((point) => {createMarker(point);});
 };
 
 const resetMap = () => map.setView({
@@ -99,6 +108,24 @@ const resetMarker = () => {
   });
 };
 
-export {renderMarkers, resetMarker, resetMap};
+const removeMarker = () => {
+  layerGroup.clearLayers();
+};
+
+loadMap(() => {
+  onMapLoad(); // При успешной загрузке карты форма "Ваше объявление" переключается в активное состояние
+  getData((offers) => {
+    renderMarkers((offers));
+    changeFilters(debounce(
+      () => {
+        removeMarker();
+        renderMarkers(checkAllFilters(offers));
+      }));
+    disableFilterForm();// При успешной загрузке карты фильтр для карты переключается в активное состояние
+  }, () => showAlert('Не удалось загрузить данные. Попробуйте еще раз'));
+});
+
+
+export {renderMarkers, resetMarker, resetMap, loadMap};
 
 
