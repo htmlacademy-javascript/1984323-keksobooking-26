@@ -1,4 +1,5 @@
 import {resetMarker, resetMap} from './map.js';
+import {avatarPreview, clonedElem} from './avatar.js';
 
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
@@ -73,6 +74,8 @@ const resetForm = () => {
   slider.noUiSlider.reset();
   resetMap();
   resetMarker();
+  avatarPreview.src = 'img/muffin-grey.svg';
+  clonedElem.classList.add('hidden');
 };
 
 resetButton.addEventListener('click', (evt) => {

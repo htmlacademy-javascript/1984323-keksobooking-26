@@ -126,6 +126,6 @@ loadMap(() => {
 });
 
 
-export {renderMarkers, resetMarker, resetMap, loadMap};
+export {renderMarkers, resetMarker, resetMap};
 
 

@@ -297,15 +297,17 @@ fieldset {
           align-items: center;
 
   margin-right: 10px;
-  padding: 0 15px;
 
   width: 70px;
+  flex: 0 0 70px;
+  overflow: hidden;
   height: 70px;
 
   text-align: center;
 
   border-radius: 5px;
   background-color: #dadada;
+
 }
 
 .ad-form__field {
