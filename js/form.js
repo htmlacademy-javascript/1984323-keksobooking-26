@@ -1,5 +1,16 @@
-import {resetMarker, resetMap} from './map.js';
+import {resetMarker, resetMap, renderMarkers} from './map.js';
 import {avatarPreview, clonedElem} from './avatar.js';
+import {resetFilter} from './filter.js';
+import { getData } from './api.js';
+
+const MIN_PRICE_OF_TYPE= {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
+};
+const BACKGROUNDIMAGE = 'img/muffin-grey.svg';
 
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
@@ -41,14 +52,6 @@ slider.noUiSlider.on('update', (values, handle) => {
   priceForm.value = Math.floor(values[handle]);
 });
 
-const MIN_PRICE_OF_TYPE= {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000',
-};
-
 // Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»
 const getTypeChange = () => {
   priceForm.placeholder = MIN_PRICE_OF_TYPE[typeForm.value];
@@ -66,7 +69,7 @@ const blockSubmitButton = () => {
 // Разблокировка кнопки 'Опубликовать'
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = 'Сохранить';
+  submitButton.textContent = 'Опубликовать';
 };
 
 const resetForm = () => {
@@ -74,7 +77,9 @@ const resetForm = () => {
   slider.noUiSlider.reset();
   resetMap();
   resetMarker();
-  avatarPreview.src = 'img/muffin-grey.svg';
+  resetFilter();
+  getData((offers) => { renderMarkers(offers);});
+  avatarPreview.src = BACKGROUNDIMAGE;
   clonedElem.classList.add('hidden');
 };
 

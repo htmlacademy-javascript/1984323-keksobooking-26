@@ -1,13 +1,21 @@
+const DEFAULT_VALUE = 'any';
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
+
 const filterForm = document.querySelector('.map__filters');
 const typeFilter = filterForm.querySelector('#housing-type');
 const priceFilter = filterForm.querySelector('#housing-price');
 const roomsFilter = filterForm.querySelector('#housing-rooms');
 const guestsFilter = filterForm.querySelector('#housing-guests');
 const featuresFilter = filterForm.querySelector('#housing-features');
+const PriceLevel = {
+  LOW: 'low',
+  MIDDLE: 'middle',
+  HIGH: 'high',
+  ANY: 'any',
+};
+const checkboxElement = document.querySelectorAll('.map__checkbox');
 
-const DEFAULT_VALUE = 'any';
-const MIN_PRICE = 10000;
-const MAX_PRICE = 50000;
 
 const checkType =({offer}) => {
   if (typeFilter.value === DEFAULT_VALUE) {
@@ -20,13 +28,13 @@ const checkType =({offer}) => {
 
 const checkPrice = ({offer}) => {
   switch (priceFilter.value) {
-    case 'low':
+    case PriceLevel.LOW:
       return offer.price < MIN_PRICE;
-    case 'middle':
+    case PriceLevel.MIDDLE:
       return offer.price >= MIN_PRICE && offer.price <= MAX_PRICE;
-    case 'high':
+    case PriceLevel.HIGH:
       return offer.price >= MAX_PRICE;
-    case 'any':
+    case PriceLevel.ANY:
       return true;
   }
 };
@@ -66,4 +74,12 @@ const changeFilters = (cb) => {
   });
 };
 
-export {checkAllFilters, changeFilters};
+const resetFilter = () => {
+  typeFilter.value = DEFAULT_VALUE;
+  priceFilter.value = DEFAULT_VALUE;
+  roomsFilter.value = DEFAULT_VALUE;
+  guestsFilter.value = DEFAULT_VALUE;
+  checkboxElement.forEach((elem)=>{elem.checked =false;});
+};
+
+export {checkAllFilters, changeFilters, resetFilter};

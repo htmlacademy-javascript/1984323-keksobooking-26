@@ -1,6 +1,9 @@
 import {informationForm, priceForm, typeForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton,resetForm} from './form.js';
 import {sendData} from './api.js';
 
+const MAXROOMNUMBER = '100';
+const CAPACITYNUMBER = '0';
+
 const roomNumber = informationForm.querySelector('#room_number');
 const capacityForm = informationForm.querySelector('#capacity');
 const timeinForm = informationForm.querySelector('#timein');
@@ -19,15 +22,15 @@ const pristine = new Pristine(informationForm, {
   errorTextClass: 'ad-form__error-text',
 }, false);
 
-const validatePrice = () => priceForm.value >= MIN_PRICE_OF_TYPE[typeForm.value];
-const validatePriceAndType = () => priceForm.value >= MIN_PRICE_OF_TYPE[typeForm.value];
+const validatePrice = () => Number(priceForm.value) >= MIN_PRICE_OF_TYPE[typeForm.value];
+const validatePriceAndType = () => Number(priceForm.value) >= MIN_PRICE_OF_TYPE[typeForm.value];
 const showPriceValidationError = () => `Минимальная цена должна быть больше ${MIN_PRICE_OF_TYPE[typeForm.value]}`;
 pristine.addValidator(priceForm, validatePrice, showPriceValidationError);
 pristine.addValidator(typeForm, validatePriceAndType, showPriceValidationError);
 
 const checkGuestsCount = () =>{
-  if (roomNumber.value === '100' || capacityForm.value === '0'){
-    return roomNumber.value === '100' && capacityForm.value === '0' ;
+  if (Number(roomNumber.value )=== MAXROOMNUMBER || Number(capacityForm.value) === CAPACITYNUMBER){
+    return roomNumber.value === MAXROOMNUMBER && capacityForm.value === CAPACITYNUMBER ;
   }
   return Number(capacityForm.value) <= Number(roomNumber.value);
 };

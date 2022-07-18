@@ -7,7 +7,7 @@ const accomodationPreview = document.querySelector('.ad-form__photo');
 const clonedElem = avatarPreview.cloneNode(true);
 clonedElem.alt = 'Фото жилья';
 
-const addFilefoo = (typeOfFile) => {
+const addFile = (typeOfFile) => {
   typeOfFile.addEventListener('change', () => {
     const file = typeOfFile.files[0];
     const fileName = file.name.toLowerCase();
@@ -25,7 +25,7 @@ const addFilefoo = (typeOfFile) => {
   });
 };
 
-addFilefoo(fileAvatarChooser);
-addFilefoo(fileAccomodationChooser);
+addFile(fileAvatarChooser);
+addFile(fileAccomodationChooser);
 
 export {avatarPreview, clonedElem};

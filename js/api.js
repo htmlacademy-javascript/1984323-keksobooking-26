@@ -1,6 +1,6 @@
 import {showPopup, errorPopup} from './alert-popup.js';
 const DATABASE_URL = 'https://26.javascript.pages.academy/keksobooking';
-const DATABSE_OFFERS_URL = `${DATABASE_URL}/data`;
+const DATABASE_OFFERS_URL = `${DATABASE_URL}/data`;
 const ALERT_SHOW_TIME = 5000;
 
 const showAlert = (message) => {
@@ -26,16 +26,14 @@ const showAlert = (message) => {
 
 // Создание функции по загрузке данных с сервера
 const getData = (onSuccess, onFail) => {
-  fetch(DATABSE_OFFERS_URL)
+  fetch(DATABASE_OFFERS_URL)
     .then((response) => {
       if (response.ok) {
         return response.json()
           .then (onSuccess);
       }
-      {
-        onFail();
-        showAlert('Не удалось загрузить данные. Попробуйте еще раз');
-      }
+      onFail();
+      showAlert('Не удалось загрузить данные. Попробуйте еще раз');
     })
     .catch (() => {
       onFail();

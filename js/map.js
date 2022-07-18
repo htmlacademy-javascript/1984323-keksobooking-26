@@ -8,6 +8,8 @@ const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
 const SIMILAR_AD_COUNT = 10;
 const L = window.L;
+const MAINPINICONURL = './img/main-pin.svg';
+const ADICONURL= './img/pin.svg';
 
 const mainPinIconSize = [52, 52];
 const mainPinIconAnchor = [26, 52];
@@ -43,7 +45,7 @@ L.tileLayer(
 
 //Создание основной метки
 const mainPinIcon = L.icon({
-  iconUrl: './img/main-pin.svg',
+  iconUrl: MAINPINICONURL,
   iconSize: mainPinIconSize,
   iconAnchor: mainPinIconAnchor,
 });
@@ -61,7 +63,7 @@ const marker = L.marker(
 
 //Создание метки объявления
 const adIcon = L.icon({
-  iconUrl: './img/pin.svg',
+  iconUrl: ADICONURL,
   iconSize: adIconSize,
   iconAnchor: adiconAnchor,
 });
