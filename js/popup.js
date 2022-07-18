@@ -10,83 +10,127 @@ const similarObjectTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-
-const createCard = ({offer, author}) => {
-  const objectElement = similarObjectTemplate.cloneNode(true);
-  const featuresContainer = objectElement.querySelector('.popup__features');
-  const featuresList = featuresContainer.querySelectorAll('.popup__feature');
-  if (!offer.title) {
-    objectElement.querySelector('.popup__title').classList.add('hidden');
+const getTitle = (title, element) => {
+  if (!title) {
+    element.querySelector('.popup__title').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__title').textContent = offer.title;
+    element.querySelector('.popup__title').textContent = title;
   }
+};
 
-  if (!offer.address) {
-    objectElement.querySelector('.popup__text--address').classList.add('hidden');
+const getAddress = (address, element) => {
+  if (!address) {
+    element.querySelector('.popup__text--address').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__text--address').textContent = offer.address;
+    element.querySelector('.popup__text--address').textContent = address;
   }
+};
 
-  if (!offer.price) {
-    objectElement.querySelector('.popup__text--price').classList.add('hidden');
+const getPrice = (price, element) => {
+  if (!price) {
+    element.querySelector('.popup__text--price').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+    element.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
   }
+};
 
-  if (!offer.type) {
-    objectElement.querySelector('.popup__type').classList.add('hidden');
+const getType = (type, element) => {
+  if (!type) {
+    element.querySelector('.popup__type').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__type').textContent = TYPES[offer.type];
+    element.querySelector('.popup__type').textContent = TYPES[type];
   }
+};
 
-  if (!offer.rooms && offer.guests) {
-    objectElement.querySelector('.popup__text--capacity').classList.add('hidden');
+const getRoomsAndGuests = (rooms, guests, element) => {
+  if (!rooms && guests) {
+    element.querySelector('.popup__text--capacity').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    element.querySelector('.popup__text--capacity').textContent = `${rooms} комнаты для ${guests} гостей`;
   }
+};
 
-  if (!offer.checkin && offer.checkout) {
-    objectElement.querySelector('.popup__text--time').classList.add('hidden');
+const getCheckinAndCheckout = (checkin, checkout, element) => {
+  if (!checkin && checkout) {
+    element.querySelector('.popup__text--time').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` ;
+    element.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}` ;
   }
+};
 
-  if (!offer.features || offer.features.length < 1){
-    objectElement.querySelector('.popup__features').classList.add('hidden');
+const getFeatures = (featureitems, element, list ) => {
+  if (!featureitems || featureitems.length < 1){
+    element.querySelector('.popup__features').classList.add('hidden');
   } else{
-    const modifiers = offer.features.map((features) => `popup__feature--${  features}`);
-    featuresList.forEach((featuresListItem) => {
+    const modifiers = featureitems.map((features) => `popup__feature--${  features}`);
+    list.forEach((featuresListItem) => {
       const modifier = featuresListItem.classList[1];
       if (!modifiers.includes(modifier)) {
         featuresListItem.remove();
       }
     });
   }
+};
 
-  if (!offer.description) {
-    objectElement.querySelector('.popup__description').classList.add('hidden');
+const getDescription = (description, element) => {
+  if (!description) {
+    element.querySelector('.popup__description').classList.add('hidden');
   } else{
-    objectElement.querySelector('.popup__description').textContent = offer.description;
+    element.querySelector('.popup__description').textContent = description;
   }
+};
 
-  if (!offer.photos || offer.photos.length < 1){
-    objectElement.querySelector('.popup__photos').classList.add('hidden');
+const getPhotos = (photos, element) => {
+  if (!photos || photos.length < 1){
+    element.querySelector('.popup__photos').classList.add('hidden');
   } else{
-    const photoElementParent = objectElement.querySelector('div');
-    const photoElementChild = objectElement.querySelector('div').querySelector('img');
+    const photoElementParent = element.querySelector('div');
+    const photoElementChild = element.querySelector('div').querySelector('img');
     photoElementParent.innerHTML='';
-    for(let i = 0; i < offer.photos.length; i++){
+    photos.forEach((photo)=> {
       const clonedElement = photoElementChild.cloneNode(false);
-      clonedElement.src = offer.photos[i];
+      clonedElement.src = photo;
       photoElementParent.appendChild(clonedElement);
-    }
+    });
   }
+};
 
-  if (!author.avatar) {
-    objectElement.querySelector('.popup__avatar').classList.add('hidden');
+const getAvatar = (avatar, element) => {
+  if (!avatar) {
+    element.querySelector('.popup__avatar').classList.add('hidden');
   } else {
-    objectElement.querySelector('.popup__avatar').src = author.avatar;
+    element.querySelector('.popup__avatar').src = avatar;
   }
+};
+
+const createCard = ({offer, author}) => {
+  const objectElement = similarObjectTemplate.cloneNode(true);
+  const featuresContainer = objectElement.querySelector('.popup__features');
+  const featuresList = featuresContainer.querySelectorAll('.popup__feature');
+  const title = offer.title;
+  const address = offer.address;
+  const price = offer.price;
+  const type = offer.type;
+  const rooms =offer.rooms;
+  const guests = offer.guests;
+  const checkin =offer.checkin;
+  const checkout = offer.checkout;
+  const featureitems = offer.features;
+  const description = offer.description;
+  const photos = offer.photos;
+  const avatar = author.avatar;
+
+  getTitle (title,objectElement);
+  getAddress (address,objectElement);
+  getPrice (price,objectElement);
+  getType (type,objectElement);
+  getRoomsAndGuests(rooms,guests,objectElement);
+  getCheckinAndCheckout(checkin,checkout,objectElement);
+  getFeatures(featureitems,objectElement,featuresList);
+  getDescription(description, objectElement);
+  getPhotos(photos,objectElement);
+  getAvatar(avatar, objectElement);
+
   return objectElement;
 };
 

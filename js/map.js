@@ -3,7 +3,10 @@ import {createCard} from './popup.js';
 
 const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
+const SIMILAR_AD_COUNT = 10;
 const L = window.L;
+const MAIN_PIN_ICON_URL = './img/main-pin.svg';
+const AD_ICON_URL= './img/pin.svg';
 
 const mainPinIconSize = [52, 52];
 const mainPinIconAnchor = [26, 52];
@@ -15,12 +18,19 @@ address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedD
 const onMapLoad =() => {
   switchCondition();
 };
-const map = L.map('map-canvas')
-  .on('load',onMapLoad)
-  .setView({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
-  }, MAP_ZOOM);
+
+const map = L.map('map-canvas');
+
+const loadMap = (cb) => {
+  map.on('load', () => {
+    cb();
+  })
+    .setView({
+      lat: TOKYO.lat,
+      lng: TOKYO.lng,
+    }, MAP_ZOOM);
+};
+
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -32,7 +42,7 @@ L.tileLayer(
 
 //Создание основной метки
 const mainPinIcon = L.icon({
-  iconUrl: './img/main-pin.svg',
+  iconUrl: MAIN_PIN_ICON_URL,
   iconSize: mainPinIconSize,
   iconAnchor: mainPinIconAnchor,
 });
@@ -48,15 +58,9 @@ const marker = L.marker(
   },
 ).addTo(map);
 
-//При остановке движения основной метки координаты отображаются в поле "Адрес"
-marker.on('move', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  address.value = `${coordinates.lat.toFixed(toFixedDigit)}, ${coordinates.lng.toFixed(toFixedDigit)}`;
-});
-
 //Создание метки объявления
 const adIcon = L.icon({
-  iconUrl: './img/pin.svg',
+  iconUrl: AD_ICON_URL,
   iconSize: adIconSize,
   iconAnchor: adiconAnchor,
 });
@@ -78,12 +82,16 @@ const createMarker = (point) => {
     .bindPopup(createCard(point));
 };
 
-const SIMILAR_AD_COUNT = 10;
+//При остановке движения основной метки координаты отображаются в поле "Адрес"
+marker.on('move', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  address.value = `${coordinates.lat.toFixed(toFixedDigit)}, ${coordinates.lng.toFixed(toFixedDigit)}`;
+});
 
 const renderMarkers = (offers) => {
-  offers.slice(0, SIMILAR_AD_COUNT).forEach((point) => {
-    createMarker(point);
-  });
+  offers
+    .slice(0, SIMILAR_AD_COUNT)
+    .forEach((point) => {createMarker(point);});
 };
 
 const resetMap = () => map.setView({
@@ -99,6 +107,14 @@ const resetMarker = () => {
   });
 };
 
-export {renderMarkers, resetMarker, resetMap};
+const removeMarker = () => {
+  layerGroup.clearLayers();
+};
+
+loadMap(() => {
+  onMapLoad(); // При успешной загрузке карты форма "Ваше объявление" переключается в активное состояние
+});
+
+export {renderMarkers, resetMarker, resetMap, removeMarker};
 
 
