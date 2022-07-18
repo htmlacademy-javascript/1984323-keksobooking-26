@@ -15,6 +15,7 @@ const addFile = (typeOfFile) => {
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
     if (matches) {
       if (typeOfFile === fileAccomodationChooser) {
+        clonedElem.classList.remove('hidden');
         clonedElem.src = URL.createObjectURL(file);
         accomodationPreview.appendChild(clonedElem);
       }
