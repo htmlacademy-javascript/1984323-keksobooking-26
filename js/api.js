@@ -2,6 +2,7 @@ import {showPopup, errorPopup} from './alert-popup.js';
 const DATABASE_URL = 'https://26.javascript.pages.academy/keksobooking';
 const DATABASE_OFFERS_URL = `${DATABASE_URL}/data`;
 const ALERT_SHOW_TIME = 5000;
+let adverts;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -30,6 +31,10 @@ const getData = (onSuccess, onFail) => {
     .then((response) => {
       if (response.ok) {
         return response.json()
+          .then((offers) => {
+            adverts = offers;
+            return offers;
+          })
           .then (onSuccess);
       }
       onFail();
@@ -65,4 +70,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData, showAlert};
+export {getData, sendData, showAlert, adverts};

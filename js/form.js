@@ -1,7 +1,7 @@
 import {resetMarker, resetMap, renderMarkers} from './map.js';
 import {avatarPreview, clonedElem} from './avatar.js';
 import {resetFilter} from './filter.js';
-import { getData } from './api.js';
+import { adverts } from './api.js';
 
 const MIN_PRICE_OF_TYPE= {
   bungalow: '0',
@@ -10,7 +10,8 @@ const MIN_PRICE_OF_TYPE= {
   house: '5000',
   palace: '10000',
 };
-const BACKGROUNDIMAGE = 'img/muffin-grey.svg';
+const BACKGROUND_IMAGE = 'img/muffin-grey.svg';
+
 
 const informationForm = document.querySelector('.ad-form');
 const informationFormElements = informationForm.querySelectorAll('.fieldset');
@@ -78,8 +79,8 @@ const resetForm = () => {
   resetMap();
   resetMarker();
   resetFilter();
-  getData((offers) => { renderMarkers(offers);});
-  avatarPreview.src = BACKGROUNDIMAGE;
+  renderMarkers(adverts);
+  avatarPreview.src = BACKGROUND_IMAGE;
   clonedElem.classList.add('hidden');
 };
 

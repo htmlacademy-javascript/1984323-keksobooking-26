@@ -1,7 +1,7 @@
-const ESCAPEBUTTON = 'Escape';
+const ESCAPE_BUTTON = 'Escape';
 const successPopup = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const errorPopup = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const isEscapeKey = (evt) => evt.key === ESCAPEBUTTON;
+const isEscapeKey = (evt) => evt.key === ESCAPE_BUTTON;
 
 const showPopup = (type) => {
   document.body.appendChild(type);

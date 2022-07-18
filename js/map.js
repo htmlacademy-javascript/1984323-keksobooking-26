@@ -1,15 +1,12 @@
-import {switchCondition, disableFilterForm, address } from './form.js';
+import {switchCondition, address } from './form.js';
 import {createCard} from './popup.js';
-import {getData, showAlert} from './api.js';
-import {checkAllFilters, changeFilters} from './filter.js';
-import {debounce} from './utils.js';
 
 const TOKYO = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
 const SIMILAR_AD_COUNT = 10;
 const L = window.L;
-const MAINPINICONURL = './img/main-pin.svg';
-const ADICONURL= './img/pin.svg';
+const MAIN_PIN_ICON_URL = './img/main-pin.svg';
+const AD_ICON_URL= './img/pin.svg';
 
 const mainPinIconSize = [52, 52];
 const mainPinIconAnchor = [26, 52];
@@ -45,7 +42,7 @@ L.tileLayer(
 
 //Создание основной метки
 const mainPinIcon = L.icon({
-  iconUrl: MAINPINICONURL,
+  iconUrl: MAIN_PIN_ICON_URL,
   iconSize: mainPinIconSize,
   iconAnchor: mainPinIconAnchor,
 });
@@ -63,7 +60,7 @@ const marker = L.marker(
 
 //Создание метки объявления
 const adIcon = L.icon({
-  iconUrl: ADICONURL,
+  iconUrl: AD_ICON_URL,
   iconSize: adIconSize,
   iconAnchor: adiconAnchor,
 });
@@ -116,18 +113,8 @@ const removeMarker = () => {
 
 loadMap(() => {
   onMapLoad(); // При успешной загрузке карты форма "Ваше объявление" переключается в активное состояние
-  getData((offers) => {
-    renderMarkers((offers));
-    changeFilters(debounce(
-      () => {
-        removeMarker();
-        renderMarkers(checkAllFilters(offers));
-      }));
-    disableFilterForm();// При успешной загрузке карты фильтр для карты переключается в активное состояние
-  }, () => showAlert('Не удалось загрузить данные. Попробуйте еще раз'));
 });
 
-
-export {renderMarkers, resetMarker, resetMap};
+export {renderMarkers, resetMarker, resetMap, removeMarker};
 
 

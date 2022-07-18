@@ -1,8 +1,8 @@
 import {informationForm, priceForm, typeForm, MIN_PRICE_OF_TYPE, blockSubmitButton, unblockSubmitButton,resetForm} from './form.js';
 import {sendData} from './api.js';
 
-const MAXROOMNUMBER = '100';
-const CAPACITYNUMBER = '0';
+const MAX_ROOM_NUMBER = '100';
+const CAPACITY_NUMBER = '0';
 
 const roomNumber = informationForm.querySelector('#room_number');
 const capacityForm = informationForm.querySelector('#capacity');
@@ -29,8 +29,8 @@ pristine.addValidator(priceForm, validatePrice, showPriceValidationError);
 pristine.addValidator(typeForm, validatePriceAndType, showPriceValidationError);
 
 const checkGuestsCount = () =>{
-  if (Number(roomNumber.value )=== MAXROOMNUMBER || Number(capacityForm.value) === CAPACITYNUMBER){
-    return roomNumber.value === MAXROOMNUMBER && capacityForm.value === CAPACITYNUMBER ;
+  if (Number(roomNumber.value )=== MAX_ROOM_NUMBER || Number(capacityForm.value) === CAPACITY_NUMBER){
+    return roomNumber.value === MAX_ROOM_NUMBER && capacityForm.value === CAPACITY_NUMBER ;
   }
   return Number(capacityForm.value) <= Number(roomNumber.value);
 };
