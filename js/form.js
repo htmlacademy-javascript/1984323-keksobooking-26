@@ -1,7 +1,7 @@
 import {resetMarker, resetMap, renderMarkers} from './map.js';
 import {avatarPreview, clonedElem} from './avatar.js';
 import {resetFilter} from './filter.js';
-import { adverts } from './api.js';
+import { getAdverts } from './api.js';
 
 const MIN_PRICE_OF_TYPE= {
   bungalow: '0',
@@ -54,11 +54,11 @@ slider.noUiSlider.on('update', (values, handle) => {
 });
 
 // Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»
-const getTypeChange = () => {
+const onTypeChange = () => {
   priceForm.placeholder = MIN_PRICE_OF_TYPE[typeForm.value];
   priceForm.min = MIN_PRICE_OF_TYPE[typeForm.value];
 };
-typeForm.addEventListener('change',getTypeChange);
+typeForm.addEventListener('change',onTypeChange);
 
 
 // Блокирование кнопки 'Опубликовать'
@@ -79,7 +79,7 @@ const resetForm = () => {
   resetMap();
   resetMarker();
   resetFilter();
-  renderMarkers(adverts);
+  renderMarkers(getAdverts());
   avatarPreview.src = BACKGROUND_IMAGE;
   clonedElem.classList.add('hidden');
 };
