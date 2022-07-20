@@ -1,7 +1,7 @@
 import {switchCondition, address } from './form.js';
 import {createCard} from './popup.js';
 
-const TOKYO = { lat: 35.652832, lng: 139.839478};
+const DEFAULT_COORDINATES = { lat: 35.652832, lng: 139.839478};
 const MAP_ZOOM = 13;
 const SIMILAR_AD_COUNT = 10;
 const L = window.L;
@@ -13,7 +13,7 @@ const mainPinIconAnchor = [26, 52];
 const adIconSize = [40, 40];
 const adiconAnchor = [20, 40];
 const toFixedDigit = 5;
-address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
+address.value= `${DEFAULT_COORDINATES.lat.toFixed(toFixedDigit)}, ${DEFAULT_COORDINATES.lng.toFixed(toFixedDigit)}`;
 
 const onMapLoad =() => {
   switchCondition();
@@ -26,8 +26,8 @@ const loadMap = (cb) => {
     cb();
   })
     .setView({
-      lat: TOKYO.lat,
-      lng: TOKYO.lng,
+      lat: DEFAULT_COORDINATES.lat,
+      lng: DEFAULT_COORDINATES.lng,
     }, MAP_ZOOM);
 };
 
@@ -49,8 +49,8 @@ const mainPinIcon = L.icon({
 
 const marker = L.marker(
   {
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: DEFAULT_COORDINATES.lat,
+    lng: DEFAULT_COORDINATES.lng,
   },
   {
     draggable: true,
@@ -95,15 +95,15 @@ const renderMarkers = (offers) => {
 };
 
 const resetMap = () => map.setView({
-  lat: TOKYO.lat,
-  lng: TOKYO.lng,
+  lat: DEFAULT_COORDINATES.lat,
+  lng: DEFAULT_COORDINATES.lng,
 }, MAP_ZOOM);
 
 const resetMarker = () => {
-  address.value= `${TOKYO.lat.toFixed(toFixedDigit)}, ${TOKYO.lng.toFixed(toFixedDigit)}`;
+  address.value= `${DEFAULT_COORDINATES.lat.toFixed(toFixedDigit)}, ${DEFAULT_COORDINATES.lng.toFixed(toFixedDigit)}`;
   marker.setLatLng({
-    lat: TOKYO.lat,
-    lng: TOKYO.lng,
+    lat: DEFAULT_COORDINATES.lat,
+    lng: DEFAULT_COORDINATES.lng,
   });
 };
 

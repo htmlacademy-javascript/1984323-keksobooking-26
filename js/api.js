@@ -3,6 +3,8 @@ const DATABASE_URL = 'https://26.javascript.pages.academy/keksobooking';
 const DATABASE_OFFERS_URL = `${DATABASE_URL}/data`;
 const ALERT_SHOW_TIME = 5000;
 let adverts;
+const getAdverts = () => adverts;
+
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -70,4 +72,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData, showAlert, adverts};
+export {getData, sendData, showAlert, getAdverts};
